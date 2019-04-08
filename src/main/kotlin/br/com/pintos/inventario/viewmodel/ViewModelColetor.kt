@@ -2,6 +2,7 @@ package br.com.pintos.inventario.viewmodel
 
 import br.com.astrosoft.framework.viewmodel.EViewModel
 import br.com.astrosoft.framework.viewmodel.IView
+import br.com.astrosoft.framework.viewmodel.VO
 import br.com.astrosoft.framework.viewmodel.ViewModel
 import br.com.pintos.inventario.model.Coleta
 import br.com.pintos.inventario.model.Inventario
@@ -14,7 +15,7 @@ import br.com.pintos.inventario.viewmodel.TipoLeitura.LOTE
 import br.com.pintos.inventario.viewmodel.TipoLeitura.MATRICULA
 import io.ebean.annotation.Expose
 
-class ViewModelColetor(view : IView) : ViewModel(view){
+class ViewModelColetor(view : IView) : ViewModel<ColetorVO>(view){
   @field:Expose
   var inventario: Inventario? = null
   @field:Expose
@@ -100,9 +101,32 @@ class ViewModelColetor(view : IView) : ViewModel(view){
     usuario = null
     updateModel()
   }
+
+  override fun toVO(): ColetorVO {
+    val lblInventario = inventario?.run {
+      "$numero/${loja.sigla}"
+    }
+    val lblUsuario = usuario?.run {
+      apelido
+    }
+    val lblLote = coleta?.run {
+      "${lote.numero.padStart(3, '0')}/$numleitura"
+    }
+    val lista = leituras
+    val last = if(lista.size < 5) lista.size else 5
+    val itens = lista.sortedBy {-it.id}
+      .subList(0, last)
+      .map {
+        "${it.leitura} - ${it.observacao}"
+      }
+    val lblLeitura = this.labelField
+    return ColetorVO(lblInventario, lblUsuario, lblLote, itens, lblLeitura)
+  }
 }
 
 enum class TipoLeitura {
   MATRICULA, INVENTARIO, LOTE, COLETA
 }
 
+data class ColetorVO(val lblInventario: String?, val lblUsuario: String?, val lblLote: String?, val itens: List<String>,
+                     val lblLeitura: String) : VO()

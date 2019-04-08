@@ -1,6 +1,7 @@
-package br.com.pintos.rest
+package br.com.pintos.inventario.rest
 
 
+import br.com.pintos.inventario.rest.ColetorApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 

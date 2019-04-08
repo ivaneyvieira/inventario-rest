@@ -1,4 +1,4 @@
-package br.com.pintos.rest
+package br.com.pintos.inventario.rest
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

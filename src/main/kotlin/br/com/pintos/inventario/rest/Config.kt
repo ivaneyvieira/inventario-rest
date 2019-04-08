@@ -1,4 +1,4 @@
-package br.com.pintos.rest
+package br.com.pintos.inventario.rest
 
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.transaction.PlatformTransactionManager
